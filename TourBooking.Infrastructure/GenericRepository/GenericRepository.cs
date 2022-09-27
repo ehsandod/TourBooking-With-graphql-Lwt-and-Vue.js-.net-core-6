@@ -54,5 +54,10 @@ namespace TourBooking.Infrastructure.GenericRepository
         {
             _context.Remove(obj);
         }
+
+        public int Count()
+        {
+            return table.Count();
+        }
     }
 }

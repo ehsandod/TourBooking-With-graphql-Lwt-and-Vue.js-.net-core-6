@@ -13,5 +13,6 @@ namespace TourBooking.Domain.Contracts
         void Update(T obj);
         void Delete(T obj);
         Task<int> SaveChangesAsync();
+        int Count();
     }
 }

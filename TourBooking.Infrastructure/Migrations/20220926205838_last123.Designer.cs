@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TourBooking.Infrastructure.DBContext;
 
@@ -11,9 +12,10 @@ using TourBooking.Infrastructure.DBContext;
 namespace TourBooking.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220926205838_last123")]
+    partial class last123
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,11 +123,9 @@ namespace TourBooking.Infrastructure.Migrations
 
             modelBuilder.Entity("TourBooking.Domain.Entities.Station", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("StationId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
@@ -139,18 +139,16 @@ namespace TourBooking.Infrastructure.Migrations
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("StationId");
 
                     b.ToTable("Stations");
                 });
 
             modelBuilder.Entity("TourBooking.Domain.Entities.Waitlist", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("WaitlistId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("Created")
                         .HasColumnType("datetime2");
@@ -164,7 +162,7 @@ namespace TourBooking.Infrastructure.Migrations
                     b.Property<string>("Listname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("WaitlistId");
 
                     b.ToTable("Waitlists");
                 });

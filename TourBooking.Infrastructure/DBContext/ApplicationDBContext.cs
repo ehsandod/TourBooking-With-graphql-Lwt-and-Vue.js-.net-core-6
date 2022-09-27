@@ -11,6 +11,8 @@ namespace TourBooking.Infrastructure.DBContext
         }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<PartyLeader> PartyLeaders { get; set; }
+        public DbSet<Station> Stations { get; set; }
+        public DbSet<Waitlist> Waitlists { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

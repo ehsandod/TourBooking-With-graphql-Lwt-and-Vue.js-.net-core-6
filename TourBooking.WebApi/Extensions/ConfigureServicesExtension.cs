@@ -24,6 +24,12 @@ namespace TourBooking.WebApi.Extensions
             services.AddScoped(typeof(IBookingService), typeof(BookingService));
             services.AddScoped(typeof(IPartyLeaderService), typeof(PartyLeaderService));
 
+            services.AddScoped(typeof(IStationService), typeof(StationService));
+            services.AddScoped(typeof(IStationRepository), typeof(StationRepository));
+            
+            services.AddScoped(typeof(IWaitlistService), typeof(WaitlistService));
+            services.AddScoped(typeof(IWaitlistRepository), typeof(WaitlistRepository));
+
             //GraphQl Configurations.
             services
                 .AddGraphQLServer()

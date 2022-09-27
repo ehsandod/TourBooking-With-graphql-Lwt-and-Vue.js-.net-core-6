@@ -12,8 +12,8 @@ using TourBooking.Infrastructure.DBContext;
 namespace TourBooking.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20220916225131_First")]
-    partial class First
+    [Migration("20220926200125_last333")]
+    partial class last333
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -119,6 +119,63 @@ namespace TourBooking.Infrastructure.Migrations
                             PartyLeaderId = new Guid("5b8a57ee-b147-4f8c-b7e6-f8725119deb4"),
                             Name = "EliGasht"
                         });
+                });
+
+            modelBuilder.Entity("TourBooking.Domain.Entities.Station", b =>
+                {
+                    b.Property<string>("City")
+                        .HasMaxLength(21)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(21)")
+                        .HasColumnName("city");
+
+                    b.Property<int?>("LatN")
+                        .HasColumnType("int")
+                        .HasColumnName("lat_n");
+
+                    b.Property<int?>("LongW")
+                        .HasColumnType("int")
+                        .HasColumnName("long_w");
+
+                    b.Property<string>("State")
+                        .HasMaxLength(2)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(2)")
+                        .HasColumnName("state");
+
+                    b.Property<Guid>("StationId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("StationId");
+
+                    b.ToTable("Stations");
+                });
+
+            modelBuilder.Entity("TourBooking.Domain.Entities.Waitlist", b =>
+                {
+                    b.Property<DateTime?>("Created")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created");
+
+                    b.Property<string>("Firstname")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("firstname");
+
+                    b.Property<string>("Lastname")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("lastname");
+
+                    b.Property<string>("Listname")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("listname");
+
+                    b.Property<Guid>("WaitlistId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Waitlistid");
+
+                    b.ToTable("waitlist", (string)null);
                 });
 
             modelBuilder.Entity("TourBooking.Domain.Entities.Booking", b =>

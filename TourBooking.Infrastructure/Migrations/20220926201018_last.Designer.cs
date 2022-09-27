@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TourBooking.Infrastructure.DBContext;
 
@@ -11,9 +12,10 @@ using TourBooking.Infrastructure.DBContext;
 namespace TourBooking.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220926201018_last")]
+    partial class last
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,52 +123,59 @@ namespace TourBooking.Infrastructure.Migrations
 
             modelBuilder.Entity("TourBooking.Domain.Entities.Station", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(21)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(21)")
+                        .HasColumnName("city");
 
                     b.Property<int?>("LatN")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("lat_n");
 
                     b.Property<int?>("LongW")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("long_w");
 
                     b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(2)")
+                        .HasColumnName("state");
 
-                    b.HasKey("Id");
+                    b.Property<Guid>("StationId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("StationId");
 
                     b.ToTable("Stations");
                 });
 
             modelBuilder.Entity("TourBooking.Domain.Entities.Waitlist", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<DateTime?>("Created")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created");
 
                     b.Property<string>("Firstname")
-                        .HasColumnType("nvarchar(max)");
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("firstname");
 
                     b.Property<string>("Lastname")
-                        .HasColumnType("nvarchar(max)");
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("lastname");
 
                     b.Property<string>("Listname")
-                        .HasColumnType("nvarchar(max)");
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("listname");
 
-                    b.HasKey("Id");
+                    b.Property<Guid>("WaitlistId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Waitlistid");
 
-                    b.ToTable("Waitlists");
+                    b.ToTable("waitlist", (string)null);
                 });
 
             modelBuilder.Entity("TourBooking.Domain.Entities.Booking", b =>

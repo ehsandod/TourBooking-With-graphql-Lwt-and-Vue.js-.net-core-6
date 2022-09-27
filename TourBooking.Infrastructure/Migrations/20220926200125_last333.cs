@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TourBooking.Infrastructure.Migrations
 {
-    public partial class First : Migration
+    public partial class last333 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,6 +19,34 @@ namespace TourBooking.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PartyLeaders", x => x.PartyLeaderId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Stations",
+                columns: table => new
+                {
+                    StationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    city = table.Column<string>(type: "varchar(21)", unicode: false, maxLength: 21, nullable: true),
+                    state = table.Column<string>(type: "varchar(2)", unicode: false, maxLength: 2, nullable: true),
+                    lat_n = table.Column<int>(type: "int", nullable: true),
+                    long_w = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                });
+
+            migrationBuilder.CreateTable(
+                name: "waitlist",
+                columns: table => new
+                {
+                    Waitlistid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    listname = table.Column<string>(type: "varchar(max)", unicode: false, nullable: true),
+                    firstname = table.Column<string>(type: "varchar(max)", unicode: false, nullable: true),
+                    lastname = table.Column<string>(type: "varchar(max)", unicode: false, nullable: true),
+                    created = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
                 });
 
             migrationBuilder.CreateTable(
@@ -75,6 +103,12 @@ namespace TourBooking.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Bookings");
+
+            migrationBuilder.DropTable(
+                name: "Stations");
+
+            migrationBuilder.DropTable(
+                name: "waitlist");
 
             migrationBuilder.DropTable(
                 name: "PartyLeaders");
