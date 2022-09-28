@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TourBooking.Application.DtoModels;
 using TourBooking.Domain.Entities;
 
 namespace TourBooking.Application.Services
@@ -11,7 +12,7 @@ namespace TourBooking.Application.Services
     {
         IQueryable<Waitlist> GetAllWaitList();
         Waitlist GetWaitlist(int id);
-        IQueryable<Waitlist> GetAllWaitlistWithNewStructure();
+        Task<List<WaitlistAdminStructDto>> GetAllWaitlistAdminStructure();
 
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TourBooking.Application.DtoModels;
+using TourBooking.Application.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,11 +10,19 @@ namespace TourBooking.WebApi.Controllers
     [ApiController]
     public class WaitlistController : ControllerBase
     {
-        // GET: api/<WaitlistController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IWaitlistService _waitlistService;
+
+        public WaitlistController(IWaitlistService waitlistService)
         {
-            return new string[] { "value1", "value2" };
+            _waitlistService = waitlistService;
+        }
+
+        // GET: api/<WaitlistController>
+        [HttpGet("GetAllWaitlistAdminStructure")]
+        public async Task<IActionResult> GetAllWaitlistAdminStructure()
+        {
+            var test = await _waitlistService.GetAllWaitlistAdminStructure();
+            return Ok(test.ToList());
         }
 
         // GET api/<WaitlistController>/5

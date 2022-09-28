@@ -1,106 +1,59 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TourBooking.Application.Services;
 using TourBooking.Domain.Entities;
 
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
 namespace TourBooking.WebApi.Controllers
 {
-    public class StationController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class StationController : ControllerBase
     {
         private readonly IStationService _stationService;
-        private readonly WaitlistService _waitlistService;
 
-
-        public StationController(WaitlistService waitlistService1, IStationService stationService, IWaitlistService waitlistService)
+        public StationController(IStationService stationService)
         {
-
             _stationService = stationService;
-            _waitlistService = waitlistService1;
         }
 
-        // GET: StationController
-        public ActionResult IndGetIndistinctCountex()
+        // GET: api/<Station2Controller>
+        [HttpGet("GetIndistinctCount")]
+        public int GetIndistinctCount()
         {
-            //var s= _stationService.GetAllStations().Select(x=>x.City).Distinct().Count();
-            var count = _stationService.GetIndistinctCount();
-            return View();
+            return _stationService.GetIndistinctCount();
         }
-
-        public ActionResult GetAllCitiesEndWithVowels()
+        
+        // GET: api/<Station2Controller>
+        [HttpGet("GetAllCitiesEndWithVowels")]
+        public List<Station> GetAllCitiesEndWithVowels()
         {
-            _waitlistService.GetAllWaitlistWithNewStructure();
-            //var s= _stationService.GetAllStations().Select(x=>x.City).Distinct().Count();
-            var count = _stationService.GetAllCitiesEndWithVowels().ToList();
-            return View();
+            return _stationService.GetAllCitiesEndWithVowels().ToList();
         }
 
-        // GET: StationController/Details/5
-        public ActionResult Details(int id)
+        // GET api/<Station2Controller>/5
+        [HttpGet("{id}")]
+        public string Get(int id)
         {
-            return View();
+            return "value";
         }
 
-        // GET: StationController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: StationController/Create
+        // POST api/<Station2Controller>
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public void Post([FromBody] string value)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
 
-        // GET: StationController/Edit/5
-        public ActionResult Edit(int id)
+        // PUT api/<Station2Controller>/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
         {
-            return View();
         }
 
-        // POST: StationController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        // DELETE api/<Station2Controller>/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: StationController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: StationController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
