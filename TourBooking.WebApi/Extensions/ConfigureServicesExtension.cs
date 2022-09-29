@@ -20,6 +20,8 @@ namespace TourBooking.WebApi.Extensions
                 ServiceLifetime.Scoped);
 
             //Swagger
+            //tamome ? chiye digei  hast?
+            //in dota sql query ro bebin
             services.AddSwaggerGen(setup =>
             {
                 // Include 'SecurityScheme' to use JWT Authentication

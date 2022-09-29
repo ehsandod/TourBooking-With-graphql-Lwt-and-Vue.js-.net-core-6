@@ -9,7 +9,7 @@ namespace TourBooking.Application.Services
 {
     public interface IUserService
     {
-        User Authenticate(string username, string password);
-        IEnumerable<User> GetAll();
+        Task<User> AuthenticateAsync(string username, string password);
+        Task<List<User>> GetAllAsync();
     }
 }

@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using System.Text;
 using TourBooking.Application.DtoModels;
 using TourBooking.Application.Services;
+using TourBooking.WebApi.Extensions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,14 +13,20 @@ namespace TourBooking.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class WaitlistController : ControllerBase
     {
         private readonly IWaitlistService _waitlistService;
+        private readonly ILogger<WaitlistController> _logger;
+        private readonly IDistributedCache _distributedCache;
 
-        public WaitlistController(IWaitlistService waitlistService)
+        public WaitlistController(IWaitlistService waitlistService, ILogger<WaitlistController> logger, IDistributedCache distributedCache)
         {
+            _logger = logger;
+            _distributedCache = distributedCache;
             _waitlistService = waitlistService;
         }
+
 
         // GET: api/<WaitlistController>
         [HttpGet("GetAllWaitlistAdminStructure")]
@@ -26,12 +37,6 @@ namespace TourBooking.WebApi.Controllers
         }
 
         // GET api/<WaitlistController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/<WaitlistController>
         [HttpPost]
         public void Post([FromBody] string value)
@@ -49,5 +54,31 @@ namespace TourBooking.WebApi.Controllers
         public void Delete(int id)
         {
         }
+
+
+        //Redis Cash Sample
+        public string LastTime { get; set; }
+        [HttpGet("{testRedis}")]
+        public void TestRedis()
+        {
+            var cachedTime = _distributedCache.Get("lastTime");
+            if (cachedTime == null)
+            {
+                var timeNow=DateTime.Now.TimeOfDay;
+                LastTime = timeNow.ToString();
+                var bytes=Encoding.UTF8.GetBytes(timeNow.ToString());
+
+                _distributedCache.Set("LastTime", bytes, new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(10)
+                });
+                _logger.LogWarning("Time Cached to Redis");
+            }
+            else
+            {
+                LastTime=Encoding.UTF8.GetString(_distributedCache.Get("lasttime"));
+            }
+        }
     }
 }
+

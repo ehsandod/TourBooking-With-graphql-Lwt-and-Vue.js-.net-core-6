@@ -1,7 +1,9 @@
 using GraphQL.Server.Ui.Voyager;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using TourBooking.Application.Commen.Entities;
 using TourBooking.Application.Services;
+using TourBooking.Infrastructure.DBContext;
 using TourBooking.Infrastructure.Repositories;
 using TourBooking.WebApi.Extensions;
 
@@ -13,12 +15,27 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureServices();
 builder.Services.AddOurAuthentication(builder.Configuration.GetSection("jwt").Get<AppSettings>());
 builder.Services.AddSwaggerGen();
+builder.Services.AddDistributedRedisCache(option =>
+{
+    option.Configuration = "localhost";
+    option.InstanceName = "mydb_";
+});
+
+builder.Services.AddCors(c =>
+{
+    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+});
 
 
 var app = builder.Build();
+//using (var scope = app.Services.CreateScope())
+//{
+//    var db = scope.ServiceProvider.GetRequiredService<ApplicationDBContext>();
+//    db.Database.Migrate();
+//}
 
-//app.UseMvc();
-app.UseAuthentication();
+app.UseCors(options =>  options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
@@ -30,8 +47,10 @@ app.UseGraphQLVoyager(new VoyagerOptions() { GraphQLEndPoint = "/graphql" }, "/g
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.UseSwagger();
-app.UseSwaggerUI(c => {
+app.UseSwaggerUI(c =>
+{
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V2");
 });
 

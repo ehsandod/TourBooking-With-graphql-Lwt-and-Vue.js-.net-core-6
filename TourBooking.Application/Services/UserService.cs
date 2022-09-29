@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -8,29 +9,22 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TourBooking.Application.Commen.Entities;
+using TourBooking.Domain.Contracts;
 using TourBooking.Domain.Entities;
 
 namespace TourBooking.Application.Services
 {
     public class UserService : IUserService
     {
-        private readonly List<User> _users = new List<User>
-        {
-            new User
-            {
-                Id = 1, FirstName = "moein", LastName = "fazeli", Username = "user1", Password = "1234",
-                AccessAllUser = true,Role="Admin"
-            },
-            new User
-            {
-                Id = 2, FirstName = "hassan", LastName = "saeedi", Username = "user2", Password = "1234",
-                AccessAllUser = true, Role="User"
-            }
-        };
+        private readonly IUserRepository _userRepository;
 
-        public User Authenticate(string username, string password)
+        public UserService(IUserRepository userRepository)
         {
-            var user = _users.SingleOrDefault(x => x.Username == username && x.Password == password);
+            _userRepository = userRepository;
+        }
+        public async Task<User> AuthenticateAsync(string username, string password)
+        {
+            var user = await _userRepository.GetAllAsQueryable().FirstOrDefaultAsync(x => x.Username == username && x.Password == password);
             
             // return null if user not found
             if (user == null)
@@ -60,9 +54,10 @@ namespace TourBooking.Application.Services
             return user;
         }
 
-        public IEnumerable<User> GetAll()
+        public async Task<List<User>> GetAllAsync()
         {
-            return _users.ToList();
+            return await _userRepository.GetAllAsQueryable().ToListAsync();
         }
+
     }
 }

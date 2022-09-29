@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using TourBooking.Application.Commen;
 using TourBooking.Domain.Contracts;
 using TourBooking.Domain.Entities;
@@ -29,10 +31,11 @@ namespace TourBooking.Application.Services
             return _stationRepository.GetAllAsQueryable();
         }
 
-        public int GetIndistinctCount()
+        public async Task<int> GetIndistinctCount()
         {
-            return
-            _stationRepository.Count() - _stationRepository.GetAllAsQueryable().GroupBy(x => x.City).Count();
+            var diffrence=  await  _stationRepository.GetAllAsQueryable().GroupBy(x => x.City).ToListAsync();
+
+            return diffrence.Count;
         }
 
         public IQueryable<Station> GetAllCitiesEndWithVowels()

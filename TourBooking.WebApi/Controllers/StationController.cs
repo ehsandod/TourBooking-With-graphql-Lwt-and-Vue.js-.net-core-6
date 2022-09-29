@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TourBooking.Application.Services;
 using TourBooking.Domain.Entities;
 
@@ -8,6 +9,7 @@ namespace TourBooking.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class StationController : ControllerBase
     {
         private readonly IStationService _stationService;
@@ -19,9 +21,10 @@ namespace TourBooking.WebApi.Controllers
 
         // GET: api/<Station2Controller>
         [HttpGet("GetIndistinctCount")]
-        public int GetIndistinctCount()
+        public async Task<IActionResult> GetIndistinctCount()
         {
-            return _stationService.GetIndistinctCount();
+               var diffrence=await _stationService.GetIndistinctCount();
+            return Ok(diffrence);
         }
         
         // GET: api/<Station2Controller>

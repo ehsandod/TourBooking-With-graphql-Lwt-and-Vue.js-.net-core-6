@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TourBooking.Domain.Entities;
 
 namespace TourBooking.Application.Services
@@ -8,7 +9,7 @@ namespace TourBooking.Application.Services
     {
         IQueryable<Station> GetAllStations();
         Station GetStation(int id);
-        int GetIndistinctCount();
+        Task<int> GetIndistinctCount();
         IQueryable<Station> GetAllCitiesEndWithVowels();
 
     }

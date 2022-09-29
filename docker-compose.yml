@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+  tourbooking.webapi:
+    image: ${DOCKER_REGISTRY-}tourbookingwebapi
+    build:
+      context: .
+      dockerfile: TourBooking.WebApi/Dockerfile
+            
+  db:
+    image: "mcr.microsoft.com/mssql/server"
+    container_name: sql
+    environment:
+      SA_PASSWORD: "ICanNotGiveItToYou:)"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "5101:1433"
+    volumes:
+     - db:/var/opt/mssql/data
+
+  redis:
+    image: redis:latest
+    volumes: 
+      - cache:/data
+
+
+volumes:
+  db:
+    driver: local
+  cache:
+    driver: local
