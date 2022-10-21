@@ -47,7 +47,6 @@ namespace TourBooking.WebApi.Extensions
                 });
 
             });
-
             services.AddMvc();
 
             //IOC

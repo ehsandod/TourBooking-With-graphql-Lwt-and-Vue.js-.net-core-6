@@ -33,9 +33,10 @@ namespace TourBooking.Application.Services
 
         public async Task<int> GetIndistinctCount()
         {
-            var diffrence=  await  _stationRepository.GetAllAsQueryable().GroupBy(x => x.City).ToListAsync();
-
-            return diffrence.Count;
+            var allStation = await _stationRepository.GetAllAsQueryable().ToListAsync();
+            var distinctStation =  _stationRepository.GetAll().DistinctBy(x => x.City).ToList();
+            var IndistinctCount = allStation.Count - distinctStation.Count;
+            return IndistinctCount;
         }
 
         public IQueryable<Station> GetAllCitiesEndWithVowels()

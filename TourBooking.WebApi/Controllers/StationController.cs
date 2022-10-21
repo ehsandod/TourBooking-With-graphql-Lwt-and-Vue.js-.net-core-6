@@ -9,7 +9,7 @@ namespace TourBooking.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class StationController : ControllerBase
     {
         private readonly IStationService _stationService;
@@ -23,7 +23,7 @@ namespace TourBooking.WebApi.Controllers
         [HttpGet("GetIndistinctCount")]
         public async Task<IActionResult> GetIndistinctCount()
         {
-               var diffrence=await _stationService.GetIndistinctCount();
+            var diffrence=await _stationService.GetIndistinctCount();
             return Ok(diffrence);
         }
         

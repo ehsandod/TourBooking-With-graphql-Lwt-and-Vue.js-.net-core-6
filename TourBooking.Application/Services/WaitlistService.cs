@@ -34,8 +34,6 @@ namespace TourBooking.Application.Services
         }
         public async Task<List<WaitlistAdminStructDto>> GetAllWaitlistAdminStructure()
         {
-            //inja
-            //var author = _waitlistRepository.getallfromsql();
             var index = 0;
             var query=await _waitlistRepository.GetAllAsQueryable().OrderBy(x=>x.Created).ToListAsync();
             
@@ -45,8 +43,6 @@ namespace TourBooking.Application.Services
             var mapper = config.CreateMapper();
             var result = mapper.Map<List<WaitlistAdminStructDto>>(query);
            
-            //damet garm
-            // bezar betestamesh
             return result;
         }
     }

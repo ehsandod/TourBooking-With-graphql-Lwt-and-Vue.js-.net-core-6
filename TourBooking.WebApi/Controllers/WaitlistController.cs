@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using StackExchange.Redis;
 using System.Text;
 using TourBooking.Application.DtoModels;
 using TourBooking.Application.Services;
@@ -61,6 +62,7 @@ namespace TourBooking.WebApi.Controllers
         [HttpGet("{testRedis}")]
         public void TestRedis()
         {
+
             var cachedTime = _distributedCache.Get("lastTime");
             if (cachedTime == null)
             {
